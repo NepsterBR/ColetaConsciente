@@ -6,12 +6,14 @@ import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 
 @Entity
 @Table(name = "ponto_coleta")
@@ -42,4 +44,6 @@ public class PontoColeta {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_residuo")
     private TipoResiduo tipoResiduo;
+
+    private Float totalPagar;
 }

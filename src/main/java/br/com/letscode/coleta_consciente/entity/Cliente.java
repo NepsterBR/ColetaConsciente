@@ -34,5 +34,5 @@ public class Cliente {
     @Column(name = "tipo_residuo")
     private TipoResiduo tipoResiduo;
 
-    private float quantidade;
+    private Float quantidade;
 }
