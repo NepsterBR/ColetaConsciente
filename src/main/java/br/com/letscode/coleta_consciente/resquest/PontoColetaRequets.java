@@ -6,7 +6,6 @@ import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,7 +41,6 @@ public class PontoColetaRequets {
             pontoResquest.setTotalPagar(lista.get(i).getPreco()*cliente.get().getQuantidade());
             requetsList.add(pontoResquest);
         }
-
         return requetsList.stream().filter(l -> l.getPreco() >= preco)
                 .filter(l -> l.getTipoEmpresa().equals(tipoEmpresa))
                 .filter(l -> l.getTipoResiduo().equals(tipoResiduo))
