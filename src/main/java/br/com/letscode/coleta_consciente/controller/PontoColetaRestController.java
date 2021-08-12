@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/ponto_coleta")
-public class PontoColetaController {
+public class PontoColetaRestController {
 
     private final PontoColetaRepository pontoColetaRepository;
 
@@ -28,7 +28,7 @@ public class PontoColetaController {
                                               UriComponentsBuilder uriComponentsBuilder) {
         if (this.pontoColetaRepository.findById(pontoColeta.getCnpj()).isEmpty()){
             this.pontoColetaRepository.save(pontoColeta);
-            URI uri = uriComponentsBuilder.buildAndExpand(pontoColeta.getCnpj()).toUri();
+            URI uri = uriComponentsBuilder.buildAndExpand(pontoColeta).toUri();
             return ResponseEntity.created(uri).body(pontoColeta);
         }
         return ResponseEntity.badRequest().build();
@@ -44,9 +44,15 @@ public class PontoColetaController {
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<?> deleteall(@RequestParam int cnpj) {
+    public ResponseEntity<?> deleteById(@RequestParam int cnpj) {
         this.pontoColetaRepository.deleteById(cnpj);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/buscar_cnpj")
+    public ResponseEntity<Optional<PontoColeta>> findById(@RequestParam int cnpj){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.pontoColetaRepository.findById(cnpj));
     }
 
     @GetMapping("/buscar_todos")
@@ -64,7 +70,7 @@ public class PontoColetaController {
         return this.pontoColetaRepository.findByTipoResiduo(tipoResiduo);
     }
 
-    @GetMapping("/buscar_empresa")
+    @GetMapping("/buscar_tipo_empresa")
     public List<PontoColeta> findByResiduo(@RequestParam TipoEmpresa tipoEmpresa){
         return this.pontoColetaRepository.findByTipoEmpresa(tipoEmpresa);
     }
@@ -72,29 +78,7 @@ public class PontoColetaController {
     @GetMapping("/buscar_preco")
     public List<PontoColeta> findByPreco(@RequestParam int preco){
         var lista = this.pontoColetaRepository.findAll();
-//        List<PontoColeta> pontoColeta  = lista
-//                .stream().filter(l -> l.getPreco() <= preco).collect(Collectors.toList());
-
         return lista.stream().filter(l -> l.getPreco() <= preco).collect(Collectors.toList());
-
-//        public List<String> getFilteredList(List<Foo> fooList) {
-//            return fooList.stream().filter(f -> "someword".compareTo(f.getName()) > 0).collect(Collectors.toList());
-//        }
-
-
-
-//                .filter(c -> c.() < preco). collect(Collectors.toList());
-
-
-//        var lista = this.pontoColetaRepository.findAll();
-//        var listaTemp = new ArrayList<PontoColeta>();
-//        for (int i=0; i <= lista.size(); i++){
-//            if (lista.get(i).getPreco() <= preco){
-//                listaTemp.add(lista.get(i));
-//            }
-//        }
-//        lista = listaTemp;
-//        return pontoColeta;
     }
 
 }
