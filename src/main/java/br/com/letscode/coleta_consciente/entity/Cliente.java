@@ -18,7 +18,6 @@ public class Cliente {
 
     @Id
     private int cpf;
-
     private String nome;
     private String sobrenome;
 

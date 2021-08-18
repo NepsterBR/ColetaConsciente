@@ -3,6 +3,7 @@ package br.com.letscode.coleta_consciente.controller;
 import br.com.letscode.coleta_consciente.entity.Cliente;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
+import br.com.letscode.coleta_consciente.excecoes.NotFoundException;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,23 +44,36 @@ public class ClienteRestController {
 
     @GetMapping("/buscar_cpf")
     public ResponseEntity<Optional<Cliente>> findById(@RequestParam int cpf){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(this.clienteRepository.findById(cpf));
+        try {
+            return ResponseEntity.ok()
+                    .body(this.clienteRepository.findById(cpf));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_todos")
-    public List<Cliente> findAll(){
-        return this.clienteRepository.findAll();
+    public ResponseEntity<List<Cliente>> findAll(){
+        return ResponseEntity.ok()
+                .body(this.clienteRepository.findAll());
     }
 
     @GetMapping("/buscar_estado")
-    public List<Cliente> findByEstado(@RequestParam Estados estado) {
-        return this.clienteRepository.findByEstado(estado);
+    public ResponseEntity<List<Cliente>> findByEstado(@RequestParam Estados estado) {
+       try {
+            return ResponseEntity.ok().body(clienteRepository.findByEstado(estado));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_residuo")
-    public List<Cliente> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
-        return this.clienteRepository.findByTipoResiduo(tipoResiduo);
+    public ResponseEntity<List<Cliente>> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
+        try {
+            return ResponseEntity.ok().body(clienteRepository.findByTipoResiduo(tipoResiduo));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/deletar")

@@ -1,4 +1,4 @@
-package br.com.letscode.coleta_consciente.resquest;
+package br.com.letscode.coleta_consciente.request;
 
 import br.com.letscode.coleta_consciente.entity.PontoColeta;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PontoColetaRequets {
+public class PontoColetaRequest {
 
     public List<PontoColeta> assimilar(Estados estados, TipoEmpresa tipoEmpresa, TipoResiduo tipoResiduo,
                           float preco, int cpf, PontoColetaRepository pontoColetaRepository,

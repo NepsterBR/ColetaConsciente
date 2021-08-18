@@ -6,7 +6,7 @@ import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
-import br.com.letscode.coleta_consciente.resquest.PontoColetaRequets;
+import br.com.letscode.coleta_consciente.request.PontoColetaRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +28,10 @@ public class ServicoRestController {
     @GetMapping
     public ResponseEntity<List<PontoColeta>> consulta(@RequestParam Estados estados, TipoEmpresa tipoEmpresa,
                                                        TipoResiduo tipoResiduo, float preco, int cpf){
-        var pontoColetaRequet = new PontoColetaRequets();
-        var list = pontoColetaRequet.assimilar(estados, tipoEmpresa, tipoResiduo, preco, cpf,
+        var pontoColetaRequest = new PontoColetaRequest();
+        var list = pontoColetaRequest.assimilar(estados, tipoEmpresa, tipoResiduo, preco, cpf,
                 pontoColetaRepository, clienteRepository);
 
-       return ResponseEntity.ok(list);
+       return ResponseEntity.ok().body(list);
     }
 }

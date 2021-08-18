@@ -46,4 +46,6 @@ public class PontoColeta {
     private TipoResiduo tipoResiduo;
 
     private Float totalPagar;
+
+    private boolean status;
 }

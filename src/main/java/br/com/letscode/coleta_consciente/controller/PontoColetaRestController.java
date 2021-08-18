@@ -4,6 +4,7 @@ import br.com.letscode.coleta_consciente.entity.PontoColeta;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
+import br.com.letscode.coleta_consciente.excecoes.NotFoundException;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,16 +44,25 @@ public class PontoColetaRestController {
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/deletar")
+    @PatchMapping ("/deletar")
     public ResponseEntity<?> deleteById(@RequestParam int cnpj) {
-        this.pontoColetaRepository.deleteById(cnpj);
-        return ResponseEntity.ok().build();
+        var empresa = this.pontoColetaRepository.findById(cnpj);
+        if (empresa.isPresent()) {
+            empresa.get().setStatus(false);
+            this.pontoColetaRepository.save(empresa.get());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/buscar_cnpj")
     public ResponseEntity<Optional<PontoColeta>> findById(@RequestParam int cnpj){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(this.pontoColetaRepository.findById(cnpj));
+        try {
+            return ResponseEntity.ok()
+                    .body(this.pontoColetaRepository.findById(cnpj));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_todos")
@@ -61,24 +71,44 @@ public class PontoColetaRestController {
     }
 
     @GetMapping("/buscar_estado")
-    public List<PontoColeta> findByEstado(@RequestParam Estados estado) {
-        return this.pontoColetaRepository.findByEstado(estado);
+    public ResponseEntity<List<PontoColeta>> findByEstado(@RequestParam Estados estado) {
+        try {
+            return ResponseEntity.ok()
+                    .body(this.pontoColetaRepository.findByEstado(estado));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_residuo")
-    public List<PontoColeta> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
-        return this.pontoColetaRepository.findByTipoResiduo(tipoResiduo);
+    public ResponseEntity<List<PontoColeta>> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
+        try {
+            return ResponseEntity.ok()
+                    .body(this.pontoColetaRepository.findByTipoResiduo(tipoResiduo));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_tipo_empresa")
-    public List<PontoColeta> findByResiduo(@RequestParam TipoEmpresa tipoEmpresa){
-        return this.pontoColetaRepository.findByTipoEmpresa(tipoEmpresa);
+    public ResponseEntity<List<PontoColeta>> findByResiduo(@RequestParam TipoEmpresa tipoEmpresa){
+        try {
+            return ResponseEntity.ok()
+                    .body(this.pontoColetaRepository.findByTipoEmpresa(tipoEmpresa));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/buscar_preco")
-    public List<PontoColeta> findByPreco(@RequestParam int preco){
-        var lista = this.pontoColetaRepository.findAll();
-        return lista.stream().filter(l -> l.getPreco() <= preco).collect(Collectors.toList());
+    public ResponseEntity<List<PontoColeta>> findByPreco(@RequestParam int preco){
+        try {
+            var lista = this.pontoColetaRepository.findAll();
+            return ResponseEntity.ok()
+                    .body(lista.stream().filter(l -> l.getPreco() <= preco).collect(Collectors.toList()));
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
