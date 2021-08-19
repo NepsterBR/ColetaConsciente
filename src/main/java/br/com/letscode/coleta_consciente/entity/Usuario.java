@@ -1,31 +1,47 @@
 package br.com.letscode.coleta_consciente.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Usuario implements UserDetails {
 
     @Id
-    @Column (unique = true)
-    int id;
-
-    String password;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Column(unique = true)
-    String email;
+    private String email;
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Perfil> perfis = new ArrayList<>();
+
+    public Usuario(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+
+    public Usuario(String email, String password, List<Perfil> perfis) {
+        this.email = email;
+        this.password = password;
+        this.perfis = perfis;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    public Usuario(String email, String password){
-        this.email = email;
-        this.password = password;
+        return this.perfis;
     }
 
     @Override
