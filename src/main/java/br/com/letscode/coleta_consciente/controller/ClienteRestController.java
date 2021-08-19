@@ -76,9 +76,18 @@ public class ClienteRestController {
         }
     }
 
-    @DeleteMapping("/deletar")
+    @PatchMapping("/deletar")
     public ResponseEntity<?> deleteById(@RequestParam int cpf) {
-        this.clienteRepository.deleteById(cpf);
-        return ResponseEntity.ok().build();
+        var usuario = this.clienteRepository.findById(cpf);
+        try {
+            if (usuario.isPresent()) {
+                usuario.get().setStatus(false);
+                this.clienteRepository.save(usuario.get());
+                return ResponseEntity.ok().build();
+            }
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

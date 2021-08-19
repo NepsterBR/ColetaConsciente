@@ -4,12 +4,16 @@ import br.com.letscode.coleta_consciente.entity.PontoColeta;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
+import br.com.letscode.coleta_consciente.entity.enuns.TipoServico;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +22,22 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class PontoColetaRequest {
+    private int cnpj;
+    private String email;
+    private Estados estado;
+    private String cidade;
+    private String endereco;
+    private String nomeSocial;
+    private Float preco;
+    private TipoEmpresa tipoEmpresa;
+    private TipoResiduo tipoResiduo;
+    private TipoServico tipoServico;
+
+    public PontoColeta convert (){
+        boolean status = true;
+        return new PontoColeta(this.cnpj, this.email, this.estado, this.cidade, this.endereco, this.nomeSocial,
+                this.preco, this.tipoEmpresa, this.tipoResiduo, this.tipoServico, status);
+    }
 
     public List<PontoColeta> assimilar(Estados estados, TipoEmpresa tipoEmpresa, TipoResiduo tipoResiduo,
                           float preco, int cpf, PontoColetaRepository pontoColetaRepository,
@@ -38,7 +58,6 @@ public class PontoColetaRequest {
             pontoResquest.setPreco(lista.get(i).getPreco());
             pontoResquest.setTipoEmpresa(lista.get(i).getTipoEmpresa());
             pontoResquest.setTipoResiduo(lista.get(i).getTipoResiduo());
-            pontoResquest.setTotalPagar(lista.get(i).getPreco()*cliente.get().getQuantidade());
             requetsList.add(pontoResquest);
         }
         return requetsList.stream().filter(l -> l.getPreco() >= preco)
