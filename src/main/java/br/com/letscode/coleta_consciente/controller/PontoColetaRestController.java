@@ -6,6 +6,7 @@ import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import br.com.letscode.coleta_consciente.excecoes.NotFoundException;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
+import br.com.letscode.coleta_consciente.request.PontoColetaRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,21 +26,23 @@ public class PontoColetaRestController {
     private final PontoColetaRepository pontoColetaRepository;
 
     @PostMapping("cadastrar")
-    public ResponseEntity<PontoColeta> create(@RequestBody PontoColeta pontoColeta,
-                                              UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<PontoColetaRequest> create(@RequestBody PontoColetaRequest pontoColetaRequest,
+                                                     UriComponentsBuilder uriComponentsBuilder) {
+        var pontoColeta = pontoColetaRequest.convert();
         if (this.pontoColetaRepository.findById(pontoColeta.getCnpj()).isEmpty()){
             this.pontoColetaRepository.save(pontoColeta);
             URI uri = uriComponentsBuilder.buildAndExpand(pontoColeta).toUri();
-            return ResponseEntity.created(uri).body(pontoColeta);
+            return ResponseEntity.created(uri).body(pontoColetaRequest);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<PontoColeta> atualizar(@RequestBody PontoColeta pontoColeta) {
+    public ResponseEntity<PontoColetaRequest> atualizar(@RequestBody PontoColetaRequest pontoColetaRequest) {
+        var pontoColeta = pontoColetaRequest.convert();
         if (this.pontoColetaRepository.findById(pontoColeta.getCnpj()).isPresent()){
             this.pontoColetaRepository.save(pontoColeta);
-            return ResponseEntity.status(HttpStatus.OK).body(pontoColeta);
+            return ResponseEntity.status(HttpStatus.OK).body(pontoColetaRequest);
         }
         return ResponseEntity.badRequest().build();
     }
@@ -47,10 +50,14 @@ public class PontoColetaRestController {
     @PatchMapping ("/deletar")
     public ResponseEntity<?> deleteById(@RequestParam int cnpj) {
         var empresa = this.pontoColetaRepository.findById(cnpj);
-        if (empresa.isPresent()) {
-            empresa.get().setStatus(false);
-            this.pontoColetaRepository.save(empresa.get());
-            return ResponseEntity.ok().build();
+        try {
+            if (empresa.isPresent()) {
+                empresa.get().setStatus(false);
+                this.pontoColetaRepository.save(empresa.get());
+                return ResponseEntity.ok().build();
+            }
+        } catch (NotFoundException e) {
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.badRequest().build();
     }

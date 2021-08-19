@@ -5,9 +5,10 @@ import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +35,6 @@ public class Cliente {
     private TipoResiduo tipoResiduo;
 
     private Float quantidade;
+
+    private boolean status = true;
 }

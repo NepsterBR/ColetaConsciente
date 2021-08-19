@@ -3,6 +3,7 @@ package br.com.letscode.coleta_consciente.entity;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
+import br.com.letscode.coleta_consciente.entity.enuns.TipoServico;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +46,9 @@ public class PontoColeta {
     @Column(name = "tipo_residuo")
     private TipoResiduo tipoResiduo;
 
-    private Float totalPagar;
+    @Enumerated(EnumType.STRING)
+    @Column(name =  "tipo_servico")
+    private TipoServico tipoServico;
 
     private boolean status;
 }
