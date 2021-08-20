@@ -64,7 +64,6 @@ Além disto, é necessário ter um editor para trabalhar com o código como o [I
   ```html
   {
   "estado": "SP",
-  "cidade": "São Paulo",
   "tipoEmpresa": "PRIVADO",
   "tipoResiduo": "INFECTANTE",
   "tipoServico": "RETIRADA",
