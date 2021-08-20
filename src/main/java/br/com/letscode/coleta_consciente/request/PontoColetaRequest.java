@@ -34,17 +34,16 @@ public class PontoColetaRequest {
     private TipoServico tipoServico;
 
     public PontoColeta convert (){
-        boolean status = true;
         return new PontoColeta(this.cnpj, this.email, this.estado, this.cidade, this.endereco, this.nomeSocial,
-                this.preco, this.tipoEmpresa, this.tipoResiduo, this.tipoServico, status);
+                this.preco, this.tipoEmpresa, this.tipoResiduo, this.tipoServico, true);
     }
 
     public List<PontoColeta> assimilar(Estados estados, TipoEmpresa tipoEmpresa, TipoResiduo tipoResiduo,
+                          TipoServico tipoServico,
                           float preco, int cpf, PontoColetaRepository pontoColetaRepository,
                                        ClienteRepository clienteRepository) {
 
         var lista = pontoColetaRepository.findAll();
-        var cliente = clienteRepository.findById(cpf);
         PontoColeta pontoResquest = new PontoColeta();
         List<PontoColeta> requetsList = new ArrayList<>();
 
@@ -58,6 +57,7 @@ public class PontoColetaRequest {
             pontoResquest.setPreco(lista.get(i).getPreco());
             pontoResquest.setTipoEmpresa(lista.get(i).getTipoEmpresa());
             pontoResquest.setTipoResiduo(lista.get(i).getTipoResiduo());
+            pontoResquest.setTipoServico(lista.get(i).getTipoServico());
             requetsList.add(pontoResquest);
         }
         return requetsList.stream().filter(l -> l.getPreco() >= preco)

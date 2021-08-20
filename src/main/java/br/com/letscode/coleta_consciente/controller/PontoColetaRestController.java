@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/ponto_coleta")
+@RequestMapping("/ponto-coleta")
 public class PontoColetaRestController {
 
     private final PontoColetaRepository pontoColetaRepository;
@@ -62,7 +62,7 @@ public class PontoColetaRestController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/buscar_cnpj")
+    @GetMapping("/buscar-cnpj")
     public ResponseEntity<Optional<PontoColeta>> findById(@RequestParam int cnpj){
         try {
             return ResponseEntity.ok()
@@ -72,12 +72,12 @@ public class PontoColetaRestController {
         }
     }
 
-    @GetMapping("/buscar_todos")
+    @GetMapping("/buscar-todos")
     public List<PontoColeta> findAll(){
         return this.pontoColetaRepository.findAll();
     }
 
-    @GetMapping("/buscar_estado")
+    @GetMapping("/buscar-estado")
     public ResponseEntity<List<PontoColeta>> findByEstado(@RequestParam Estados estado) {
         try {
             return ResponseEntity.ok()
@@ -87,7 +87,7 @@ public class PontoColetaRestController {
         }
     }
 
-    @GetMapping("/buscar_residuo")
+    @GetMapping("/buscar-residuo")
     public ResponseEntity<List<PontoColeta>> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
         try {
             return ResponseEntity.ok()
@@ -97,7 +97,7 @@ public class PontoColetaRestController {
         }
     }
 
-    @GetMapping("/buscar_tipo_empresa")
+    @GetMapping("/buscar-tipo-empresa")
     public ResponseEntity<List<PontoColeta>> findByResiduo(@RequestParam TipoEmpresa tipoEmpresa){
         try {
             return ResponseEntity.ok()
@@ -107,7 +107,7 @@ public class PontoColetaRestController {
         }
     }
 
-    @GetMapping("/buscar_preco")
+    @GetMapping("/buscar-preco")
     public ResponseEntity<List<PontoColeta>> findByPreco(@RequestParam int preco){
         try {
             var lista = this.pontoColetaRepository.findAll();

@@ -2,6 +2,7 @@ package br.com.letscode.coleta_consciente.request;
 
 import br.com.letscode.coleta_consciente.entity.Perfil;
 import br.com.letscode.coleta_consciente.entity.Usuario;
+import br.com.letscode.coleta_consciente.entity.enuns.TipoUser;
 import br.com.letscode.coleta_consciente.repository.PerfilRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,15 +17,11 @@ public class UsuarioRequest {
 
     private String email;
     private String password;
-    private List<Integer> perfil;
+    private TipoUser perfil;
 
     public Usuario convert(PerfilRepository perfilRepository){
-
         String senhaCrypto = new BCryptPasswordEncoder().encode(this.password);
-        List<Perfil> perfis = new ArrayList<>();
-        this.perfil.stream().map(id -> perfis.add(perfilRepository.findById(id).get()));
-
-        return new Usuario(email, senhaCrypto, perfis);
+        return new Usuario(email, senhaCrypto, perfil);
 
     }
 

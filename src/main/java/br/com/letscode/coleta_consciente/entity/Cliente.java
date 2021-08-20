@@ -36,5 +36,5 @@ public class Cliente {
 
     private Float quantidade;
 
-    private boolean status = true;
+    private boolean status;
 }

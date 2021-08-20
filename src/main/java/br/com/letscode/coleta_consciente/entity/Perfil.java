@@ -16,7 +16,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Perfil implements GrantedAuthority {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,7 +24,6 @@ public class Perfil implements GrantedAuthority {
     public Perfil(String nome) {
         this.nome = nome;
     }
-
 
     @Override
     public String getAuthority() {

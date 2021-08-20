@@ -42,7 +42,7 @@ public class ClienteRestController {
         return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/buscar_cpf")
+    @GetMapping("/buscar-cpf")
     public ResponseEntity<Optional<Cliente>> findById(@RequestParam int cpf){
         try {
             return ResponseEntity.ok()
@@ -52,13 +52,13 @@ public class ClienteRestController {
         }
     }
 
-    @GetMapping("/buscar_todos")
+    @GetMapping("/buscar-todos")
     public ResponseEntity<List<Cliente>> findAll(){
         return ResponseEntity.ok()
                 .body(this.clienteRepository.findAll());
     }
 
-    @GetMapping("/buscar_estado")
+    @GetMapping("/buscar-estado")
     public ResponseEntity<List<Cliente>> findByEstado(@RequestParam Estados estado) {
        try {
             return ResponseEntity.ok().body(clienteRepository.findByEstado(estado));
@@ -67,7 +67,7 @@ public class ClienteRestController {
         }
     }
 
-    @GetMapping("/buscar_residuo")
+    @GetMapping("/buscar-residuo")
     public ResponseEntity<List<Cliente>> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
         try {
             return ResponseEntity.ok().body(clienteRepository.findByTipoResiduo(tipoResiduo));

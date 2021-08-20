@@ -1,14 +1,19 @@
 package br.com.letscode.coleta_consciente.entity;
 
+import br.com.letscode.coleta_consciente.entity.enuns.TipoUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.w3c.dom.ls.LSInput;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -24,24 +29,20 @@ public class Usuario implements UserDetails {
     private String email;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Perfil> perfis = new ArrayList<>();
 
-    public Usuario(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    @Enumerated(EnumType.STRING)
+    private TipoUser perfis;
 
-
-    public Usuario(String email, String password, List<Perfil> perfis) {
+    public Usuario(String email, String password, TipoUser perfis) {
         this.email = email;
         this.password = password;
         this.perfis = perfis;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.perfis;
+        return Collections.singletonList(new SimpleGrantedAuthority(perfis.name()));
     }
 
     @Override
@@ -49,7 +50,6 @@ public class Usuario implements UserDetails {
         return this.password;
     }
 
-    @Override
     public String getUsername() {
         return this.email;
     }

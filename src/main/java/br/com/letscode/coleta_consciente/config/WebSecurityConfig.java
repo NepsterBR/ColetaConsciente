@@ -25,8 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/servico").permitAll()
-                .antMatchers(HttpMethod.GET, "/ponto_coleta").hasAnyAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/cliente").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/ponto-coleta/*").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/cliente").hasAuthority("ADMIN")
                 .and()
                 .csrf().disable()
                 .formLogin();

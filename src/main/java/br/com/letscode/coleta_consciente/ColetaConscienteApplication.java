@@ -9,5 +9,4 @@ public class ColetaConscienteApplication {
     public static void main(String[] args) {
         SpringApplication.run(ColetaConscienteApplication.class, args);
     }
-
 }
