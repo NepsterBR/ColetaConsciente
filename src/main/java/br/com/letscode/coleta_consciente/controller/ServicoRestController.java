@@ -1,13 +1,13 @@
 package br.com.letscode.coleta_consciente.controller;
 
-import br.com.letscode.coleta_consciente.entity.PontoColeta;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoServico;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
-import br.com.letscode.coleta_consciente.request.PontoColetaRequest;
+import br.com.letscode.coleta_consciente.response.PontoColetaResponse;
+import br.com.letscode.coleta_consciente.service.ConsultaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,13 +27,13 @@ public class ServicoRestController {
 
 
     @GetMapping
-    public ResponseEntity<List<PontoColeta>> consulta(@RequestParam Estados estados, TipoEmpresa tipoEmpresa,
-                                                      TipoResiduo tipoResiduo,
-                                                      TipoServico tipoServico,
-                                                      float preco, int cpf){
-        var pontoColetaRequest = new PontoColetaRequest();
-        var list = pontoColetaRequest.assimilar(estados, tipoEmpresa, tipoResiduo, tipoServico, preco, cpf,
-                pontoColetaRepository, clienteRepository);
+    public ResponseEntity<List<PontoColetaResponse>> consulta(@RequestParam Estados estados, TipoEmpresa tipoEmpresa,
+                                                              TipoResiduo tipoResiduo,
+                                                              TipoServico tipoServico,
+                                                              float preco, int cpf){
+        var consulta = new ConsultaService();
+        var list = consulta.assimilar(estados, tipoEmpresa, tipoResiduo,
+                tipoServico, preco, cpf, pontoColetaRepository, clienteRepository);
 
        return ResponseEntity.ok().body(list);
     }

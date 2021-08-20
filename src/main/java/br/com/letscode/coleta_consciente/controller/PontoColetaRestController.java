@@ -4,12 +4,12 @@ import br.com.letscode.coleta_consciente.entity.PontoColeta;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoEmpresa;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
-import br.com.letscode.coleta_consciente.excecoes.NotFoundException;
 import br.com.letscode.coleta_consciente.repository.PontoColetaRepository;
 import br.com.letscode.coleta_consciente.request.PontoColetaRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -56,7 +56,7 @@ public class PontoColetaRestController {
                 this.pontoColetaRepository.save(empresa.get());
                 return ResponseEntity.ok().build();
             }
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.badRequest().build();
@@ -67,7 +67,7 @@ public class PontoColetaRestController {
         try {
             return ResponseEntity.ok()
                     .body(this.pontoColetaRepository.findById(cnpj));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -82,7 +82,7 @@ public class PontoColetaRestController {
         try {
             return ResponseEntity.ok()
                     .body(this.pontoColetaRepository.findByEstado(estado));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -92,7 +92,7 @@ public class PontoColetaRestController {
         try {
             return ResponseEntity.ok()
                     .body(this.pontoColetaRepository.findByTipoResiduo(tipoResiduo));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -102,7 +102,7 @@ public class PontoColetaRestController {
         try {
             return ResponseEntity.ok()
                     .body(this.pontoColetaRepository.findByTipoEmpresa(tipoEmpresa));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -113,7 +113,7 @@ public class PontoColetaRestController {
             var lista = this.pontoColetaRepository.findAll();
             return ResponseEntity.ok()
                     .body(lista.stream().filter(l -> l.getPreco() <= preco).collect(Collectors.toList()));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }

@@ -3,11 +3,12 @@ package br.com.letscode.coleta_consciente.controller;
 import br.com.letscode.coleta_consciente.entity.Cliente;
 import br.com.letscode.coleta_consciente.entity.enuns.Estados;
 import br.com.letscode.coleta_consciente.entity.enuns.TipoResiduo;
-import br.com.letscode.coleta_consciente.excecoes.NotFoundException;
 import br.com.letscode.coleta_consciente.repository.ClienteRepository;
+import br.com.letscode.coleta_consciente.request.ClienteRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,21 +24,23 @@ public class ClienteRestController {
     private final ClienteRepository clienteRepository;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<Cliente> create (@RequestBody Cliente cliente,
+    public ResponseEntity<ClienteRequest> create (@RequestBody ClienteRequest clienteRequest,
                                            UriComponentsBuilder uriComponentsBuilder){
+        var cliente = clienteRequest.convert();
         if (this.clienteRepository.findById(cliente.getCpf()).isEmpty()){
             this.clienteRepository.save(cliente);
-            URI uri = uriComponentsBuilder.buildAndExpand(cliente).toUri();
-            return ResponseEntity.created(uri).body(cliente);
+            URI uri = uriComponentsBuilder.buildAndExpand(clienteRequest).toUri();
+            return ResponseEntity.created(uri).body(clienteRequest);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<Cliente> atualizar(@RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteRequest> atualizar(@RequestBody ClienteRequest clienteRequest) {
+        var cliente = clienteRequest.convert();
         if (this.clienteRepository.findById(cliente.getCpf()).isPresent()){
             this.clienteRepository.save(cliente);
-            return ResponseEntity.status(HttpStatus.OK).body(cliente);
+            return ResponseEntity.status(HttpStatus.OK).body(clienteRequest);
         }
         return ResponseEntity.badRequest().build();
     }
@@ -47,7 +50,7 @@ public class ClienteRestController {
         try {
             return ResponseEntity.ok()
                     .body(this.clienteRepository.findById(cpf));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -62,7 +65,7 @@ public class ClienteRestController {
     public ResponseEntity<List<Cliente>> findByEstado(@RequestParam Estados estado) {
        try {
             return ResponseEntity.ok().body(clienteRepository.findByEstado(estado));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -71,7 +74,7 @@ public class ClienteRestController {
     public ResponseEntity<List<Cliente>> findByResiduo(@RequestParam TipoResiduo tipoResiduo){
         try {
             return ResponseEntity.ok().body(clienteRepository.findByTipoResiduo(tipoResiduo));
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -85,7 +88,7 @@ public class ClienteRestController {
                 this.clienteRepository.save(usuario.get());
                 return ResponseEntity.ok().build();
             }
-        } catch (NotFoundException e) {
+        } catch (UsernameNotFoundException e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.badRequest().build();

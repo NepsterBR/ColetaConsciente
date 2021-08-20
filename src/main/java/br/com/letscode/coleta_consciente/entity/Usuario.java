@@ -7,14 +7,10 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.w3c.dom.ls.LSInput;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Getter
@@ -38,7 +34,6 @@ public class Usuario implements UserDetails {
         this.password = password;
         this.perfis = perfis;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
