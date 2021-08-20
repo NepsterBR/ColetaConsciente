@@ -81,7 +81,7 @@ Além disto, é necessário ter um editor para trabalhar com o código como o [I
   Requisição PUT para /ponto-coleta/atualizar e envio dos parâmetros exigidos pela classe ClienteRequest como exemplificado acima.
     
   <h3> Login e Logout:</h3>
-  O endpoint de login e logout são definidos pelos métodos <b>.formLogin()</b> na classe WebSecutiryConfig baseada nas configurações do Spring Security.
+  O endpoint de login e logout são definidos pelo método .formLogin() implementado na classe WebSecutiryConfig baseada nas configurações do Spring Security.
   Rrequisição POST para /login e /logout e envio dos parâmetros exigidos pela classe Usuario:
   
   ```html
