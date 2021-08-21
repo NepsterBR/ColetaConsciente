@@ -98,6 +98,9 @@ Além disto, é necessário ter um editor para trabalhar com o código como o [I
   Inicie a aplicação e siga para o [Swagger](http://localhost:8080/swagger-ui.html).  
   A API roda na porta 8080, caso ela esteja ocupada, basta entrar no arquivo `application.properties` da pasta `resources` e atribuir um novo valor na linha que contém `server.port=NOVO VALOR`. 
   Lembre-se de alterá-la também na url do localhost.
+  
+  
+<h2>Diagrama Entidade-Relacionamentos:</h2>  
 
-
-
+ <img height="350em" src="https://lh3.googleusercontent.com/SGC5vF0rwT1VZ4Pvt_00zFMhr6sm0cxiAbB_SYAxR3njU45-y0uTpikJeKwfEcZzOi4r6EvNvY78nOEN8ngMJEQ-NbZhd6wiula_FD1cdX2E6BoG6oUpeE9kag86v-P2sgN5oWXrSjpNp0ci9frziRwBv45fek3CPjU25mqxKomLvFpAD4MUgeaCMWnb9FmFXRM8-QD0AHYWmdT61PF97-xw5ZBKaow9eeICH7k2acVk1GCvQOXltQ5EJCyyLtm3qOO49l5qx-n64TJLjKRbk86SDFS03zSpElPTj4JqppH676BV2TAH9q-GKyICo6L-3tLbg_2B2j-AjgeJvjauYCnM68ZkG4u7LtQ000ppVQ3WkL3zimEouCbr36YNBwpzW8A6ZhxpJWqGOl0jWzpwRL6SRMCydKD0fAAkfJ6XA1gwvm1z5IC8A2N2FEwqYH23bE-pq5fC0Srmkdse0WKLCme42rwSnmBF2S79eSsPV4uPd8RLpcW3C4E_agP6qBX_8nlJMOr5URE6tb98MUmvhUFrinnzc9YaUzTYwqhMbjM1oLRejWHuBkAaGWbg3RWa6NY6pJQm__1Fj3-E1zkBtpAMvEmIUyYOPuC3Uxi9d4a8BO2rH_fjKxmnDnkWYzxe99MmxW0WsfBGXGICezOm-LQ8fO1M9LWxs6QQDRWynzZqozxGPMdkboriWDzoUR_7JnBOqiQW4bRNX4yfTf3R22Ml=w1042-h381-no?authuser=0" align="center">
+     
